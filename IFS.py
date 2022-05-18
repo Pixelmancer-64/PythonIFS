@@ -75,7 +75,7 @@ def Fern(x, y, a, b, c, d, *o):
 def De_Jong(x, y, a, b, c, d, *o):
     return sin(a * y) - cos(b * x), sin(c * x) - cos(d * y)
 
-
+@njit
 def Fractal_Dream(x, y, a, b, c, d, *o):
     return sin(y*b)+c*sin(x*b), sin(x*a)+d*sin(y*a)
 
@@ -111,11 +111,13 @@ def trajectory(fn, n, x0, y0, a=0, b=0, c=0, d=0, e=0, f=0, t=0):
 def attractor():
     # Fern, Tree
     IFSs = [Svensson, Bedhead, Souls, Clifford, RandomIFS,
-            De_Jong, Hopalong1, Hopalong2]
+            De_Jong, Hopalong1, Hopalong2, Fractal_Dream]
     Cmaps = [inferno, viridis, Greys9, Hot]
+
     for i in range(int(argv[1])):
         theIFS = choice(IFSs)
-        print(theIFS.__name__)
+        initialCords = choice([0, 1, .5, 0.01])
+        print(theIFS.__name__, initialCords)
         theCmap = choice(Cmaps)
         n = 100000000
         a = uniform(-10, 10)
@@ -136,7 +138,7 @@ def attractor():
              uniform(-1, 1), uniform(-1, 1), uniform(-1, 1)],
         ])
 
-        df = trajectory(theIFS, n, random(), random(), a, b, c, d, e, f, t)
+        df = trajectory(theIFS, n, initialCords, initialCords, a, b, c, d, e, f, t)
         cvs = ds.Canvas(plot_width=4000, plot_height=4000)
         agg = cvs.points(df, 'x', 'y')
 
@@ -144,5 +146,5 @@ def attractor():
 
         img = tf.shade(agg, theCmap)
 
-        export_image(img, f"{date.today()}-{theIFS.__name__},{a},{b},{c},{d},{e},{f}",
+        export_image(img, f"{date.today()}-{theIFS.__name__},{a},{b},{c},{d},{e},{f}-{initialCords}",
                      export_path="./attractors")
