@@ -75,6 +75,7 @@ def Fern(x, y, a, b, c, d, *o):
 def De_Jong(x, y, a, b, c, d, *o):
     return sin(a * y) - cos(b * x), sin(c * x) - cos(d * y)
 
+
 @njit
 def Fractal_Dream(x, y, a, b, c, d, *o):
     return sin(y*b)+c*sin(x*b), sin(x*a)+d*sin(y*a)
@@ -88,8 +89,6 @@ def Hopalong1(x, y, a, b, c, *o):
 @njit
 def Hopalong2(x, y, a, b, c, *o):
     return y - 1.0 - sqrt(fabs(b * x - 1.0 - c)) * np.sign(x - 1.0), a - x - 1.0
-
-
 
 
 @njit
@@ -138,8 +137,9 @@ def attractor():
              uniform(-1, 1), uniform(-1, 1), uniform(-1, 1)],
         ])
 
-        df = trajectory(theIFS, n, initialCords, initialCords, a, b, c, d, e, f, t)
-        cvs = ds.Canvas(plot_width=4000, plot_height=4000)
+        df = trajectory(theIFS, n, initialCords,
+                        initialCords, a, b, c, d, e, f, t)
+        cvs = ds.Canvas(plot_width=2560, plot_height=1440)
         agg = cvs.points(df, 'x', 'y')
 
         ds.transfer_functions.Image.border = 0
