@@ -111,6 +111,8 @@ def attractor():
     # Fern, Tree
     IFSs = [Svensson, Bedhead, Souls, Clifford, RandomIFS,
             De_Jong, Hopalong1, Hopalong2, Fractal_Dream]
+    
+    IFSs = [Tree]
     Cmaps = [inferno, viridis, Greys9, Hot]
 
     for i in range(int(argv[1])):
@@ -139,8 +141,8 @@ def attractor():
 
         df = trajectory(theIFS, n, initialCords,
                         initialCords, a, b, c, d, e, f, t)
-        cvs = ds.Canvas(plot_width=2560, plot_height=1440)
-        agg = cvs.points(df, 'x', 'y')
+        csv = ds.Canvas(plot_width=2560, plot_height=1440)
+        agg = csv.points(df, 'x', 'y')
 
         ds.transfer_functions.Image.border = 0
 
